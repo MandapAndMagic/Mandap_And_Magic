@@ -1,0 +1,91 @@
+<!doctype html>
+</div>
+<div>
+<!-- Replace with hero image (use 2000px wide WebP and a smaller JPG fallback) -->
+<picture>
+<source srcset="/images/hero-2000.webp" type="image/webp">
+<img src="/images/hero-1200.jpg" alt="Mandap & Magic hero" style="width:100%;height:260px;object-fit:cover;border-radius:10px">
+</picture>
+</div>
+</section>
+
+
+<section class="filters" id="portfolio">
+<button data-filter="all">All</button>
+<button data-filter="mandap">Mandap</button>
+<button data-filter="magic">Magic</button>
+<button data-filter="case">Case Studies</button>
+</section>
+
+
+<section class="gallery" id="gallery">
+<!-- Example card: Replace src/srcset with your images. Use alt text. -->
+<article class="card" data-type="mandap">
+<img loading="lazy" src="/images/mandap-thumb-400.jpg"
+srcset="/images/mandap-400.jpg 400w, /images/mandap-800.jpg 800w, /images/mandap-1600.jpg 1600w"
+sizes="(max-width:600px) 100vw, 300px"
+alt="Mandap setup in Jaipur" data-full="/images/mandap-2000.jpg">
+<div class="meta">
+<strong>Royal Floral Mandap</strong>
+<div style="font-size:13px;color:var(--muted)">Udaipur • 2024</div>
+</div>
+</article>
+
+
+<article class="card" data-type="magic">
+<img loading="lazy" src="/images/magic-thumb-400.jpg"
+srcset="/images/magic-400.jpg 400w, /images/magic-800.jpg 800w, /images/magic-1600.jpg 1600w"
+sizes="(max-width:600px) 100vw, 300px"
+alt="Close-up magic act" data-video="https://www.youtube.com/embed/VIDEO_ID">
+<div class="play">▶</div>
+<div class="meta"><strong>Close-up Street Magic</strong><div style="font-size:13px;color:var(--muted)">Mumbai • 2025</div></div>
+</article>
+
+
+<!-- Duplicate similar cards. For videos use data-video attribute. -->
+</section>
+
+
+<!-- modal for images/videos -->
+<div class="modal" id="modal">
+<div class="panel" id="modalPanel"></div>
+</div>
+
+
+<footer id="contact">
+<p>Want to book us? Call +91-XXXXXXXXXX • <a href="mailto:hello@yourdomain.com">hello@yourdomain.com</a></p>
+<p>Scan the QR to view our complete portfolio on your phone: <br><img src="/qr.svg" alt="QR to portfolio" style="width:100px;height:100px;margin-top:6px"></p>
+<p style="font-size:13px;color:#999;margin-top:12px">© Mandap & Magic — replace with your company details.</p>
+</footer>
+
+
+<script>
+// simple filter
+document.querySelectorAll('.filters button').forEach(b=>b.addEventListener('click',()=>{
+const f = b.dataset.filter;
+document.querySelectorAll('#gallery .card').forEach(card=>{
+if(f==='all' || card.dataset.type===f) card.style.display='block'; else card.style.display='none';
+});
+}));
+
+
+// open modal for images/videos
+const modal = document.getElementById('modal');
+const panel = document.getElementById('modalPanel');
+document.querySelectorAll('#gallery .card img').forEach(img=>{
+img.addEventListener('click',()=>{
+const video = img.dataset.video;
+const full = img.dataset.full;
+if(video){ panel.innerHTML = '<iframe width="100%" height="540" src="'+video+'?autoplay=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>' }
+else if(full){ panel.innerHTML = '<img src="'+full+'" alt="full image" style="width:100%;display:block">' }
+modal.style.display='flex';
+});
+});
+modal.addEventListener('click',(e)=>{ if(e.target===modal){ modal.style.display='none'; panel.innerHTML=''; }});
+
+
+// quick accessibility: keyboard close
+document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') { modal.style.display='none'; panel.innerHTML=''; }});
+</script>
+</body>
+</html>
